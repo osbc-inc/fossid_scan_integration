@@ -21,7 +21,7 @@ public class runScan {
 	projectValues pvalues = projectValues.getInstance(); 
 
 	public void runscan(String interval, String limit, String sensitivity, String replaceid, String reuseid, String idreusetype, String specificcode, 
-			String autoiddetectdeclare, String autoiddetectcopyright, String autoidresolvependingids, String  scanfailedonly, String deltaonly, String fullfileonly) {
+			String autoiddetectdeclare, String autoiddetectcopyright, String autoidresolvependingids, String  scanfailedonly, String deltaonly, String fullfileonly, String debug) {
 
 		JSONObject dataObject = new JSONObject();
         dataObject.put("username", lvalues.getUsername());
@@ -166,7 +166,7 @@ public class runScan {
 			System.out.println("Scan has been launched!!");
 			System.out.println();			
 					
-			checkScanStatus(interval);
+			checkScanStatus(interval, debug);
 			
 			System.out.println();	
 			System.out.println("Scan has been finished!!");
@@ -179,7 +179,7 @@ public class runScan {
 		}
 	}
 	
-	private void checkScanStatus(String interval) {
+	private void checkScanStatus(String interval, String debug) {
 
 		// to map scan to project
 		JSONObject dataObject = new JSONObject();
@@ -227,12 +227,19 @@ public class runScan {
 				JSONParser jsonParser = new JSONParser();
 			    JSONObject jsonObj1 = (JSONObject) jsonParser.parse(result.toString());            
 			    JSONObject jsonObj2 = (JSONObject) jsonObj1.get("data");
-			       		        
+			    	        
 			    if(jsonObj2.get("is_finished").toString().equals("true")) {
 			        finished = jsonObj2.get("is_finished").toString();		        	
 			    }		       
-			        
-			    System.out.println(i + ". "  + "file: "+ jsonObj2.get("current_filename") + " / percentage: " + jsonObj2.get("percentage_done") + "%");	        
+			    
+			    if(debug.equals("1")){
+				    System.out.println(i + ". "  + "file: "+ jsonObj2.get("current_filename") + " / percentage: " + jsonObj2.get("percentage_done") + "%");	        
+				    System.out.println("DEBUG: " + jsonObj2.toString());			    	
+			    } else {
+				    System.out.println(i + ". "  + "file: "+ jsonObj2.get("current_filename") + " / percentage: " + jsonObj2.get("percentage_done") + "%");	        
+				    
+			    }
+			    
 			    i++;
 			        
 			    Thread.sleep(intervals);	

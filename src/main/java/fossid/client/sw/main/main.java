@@ -112,6 +112,8 @@ public class main {
 			String fullfileonly = "";
 					
 			
+			String debug = "0";
+			
 			for(int i = 0; i < args.length; i++) {
 				if(args[i].equals("--protocol")) {
 					protocol = args[i+1]; 
@@ -247,6 +249,10 @@ public class main {
 					gitbranchchange = args[i+1];
 				}
 				
+				if(args[i].equals("--debug")) {
+					debug = args[i+1];
+				}
+				
 				i++;
 			}
 			
@@ -270,7 +276,7 @@ public class main {
 			
 			ignoreRules.setignoreRules(ignoreValue, ignoreType);			
 		    runscan.runscan(interval, limit, sensitivity, replaceid, reuseid, idreusetype, specificcode, autoiddetectdeclare, 
-		    		autoiddetectcopyright,  autoidresolvependingids, scanfailedonly, deltaonly, fullfileonly);		    
+		    		autoiddetectcopyright,  autoidresolvependingids, scanfailedonly, deltaonly, fullfileonly, debug);		    
 		    if(dependencyScanRun.equals("1")){		    	
 		    	runDependencyScan.runDependencyScan(interval);
 		    }						

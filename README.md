@@ -91,6 +91,8 @@ Option (Optional)
 --ignoretype: Set ignore types. This value is separated by commas and the order of this values is matched with the order of ignorevalue value  
 --interval: Set interval time to check status running source code and dependency scan  
 	         (default: 10 seconds)
+--debug: Pring debug message of scan process
+         (default: 0, 1)
 
 Git Config (Optional)
 (NOTE: Please, do not use `Git Config` with `--targetpath` and `Upload Target File`)
@@ -131,6 +133,4 @@ Scan Option (Optional)
                   (0 default,1)	
 --deltaonly: Only newly added files or modified files will be scanned
              (0,1 default)	
-(not available) --fullfileonly: Get only full file matches as result
-                                 (0,1 default)
 ```
