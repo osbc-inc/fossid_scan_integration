@@ -1,29 +1,20 @@
 package fossid.client.sw.uploading;
 
-import org.apache.http.Consts;
-import org.apache.http.HttpEntity;
+import java.io.File;
+import java.util.Base64;
+import java.util.Base64.Encoder;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.simple.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Base64;
-import java.util.Base64.Encoder;
-
 import fossid.client.sw.values.loginValues;
 import fossid.client.sw.values.projectValues;
-import fossid.client.sw.uploading.osValidator;
 
 public class uploadFiles {
 	
@@ -46,55 +37,8 @@ public class uploadFiles {
 		
 		int giga = (int) (((pvalues.getFilesize()/1024)/1024)/1024);
 		
-		//if(osValidation.isWindows()) {
-		if(osValidation.isWindows() || osValidation.isUnix() || osValidation.isMac() || osValidation.isSolaris()){
-			
-			uploadingFile(count);
-			
-		//} else if(osValidation.isUnix() || osValidation.isMac() || osValidation.isSolaris()) {
-		} else if(osValidation.isSolaris()) {						
-			try {
-				if(giga == 1 || giga < 1) {
-					System.out.println();
-					System.out.println("The file \"" + compressedFile + "\" is uploading to FOSSID server, /fossid/uploads/files/scans/" + pvalues.getScanId());
-
-					String command = "curl --user " + lvalues.getUsername() + ":" + lvalues.getApikey()
-							+ " -H \"FOSSID-SCAN-CODE: " + scanCode + "\"" + " -H \"FOSSID-FILE-NAME: " + fileName + "\"" + " -X POST -T \"" + pvalues.getCompressedFile() + "\" "
-									+ lvalues.getServerUploadUri();
-					
-					shellCmd(command);
-					System.out.println("curl command: " + command);
-					
-					System.out.println("Uploading file is finished");		
-					
-					extractArchives(Integer.parseInt(count));
-					
-				} else if(giga > 1) {
-					
-					System.out.println();
-					System.out.println("The file \"" + compressedFile + "\" is uploading to FOSSID server, /fossid/uploads/files/scans/" + pvalues.getScanId());
-					
-					//split zip file into 1GB
-					String command = "split --bytes 1073741824  --filter='curl -vv --user " + lvalues.getUsername() + ":" + lvalues.getApikey() + 
-							" -H \"Transfer-Encoding: chunked\" -H \"FOSSID-SCAN-CODE: " + scanCode + "\""
-							+ " -H \"FOSSID-FILE-NAME: " + fileName + "\"" + " -X POST -T - " + lvalues.getServerUploadUri() + "' " + pvalues.getCompressedFile();
-					
-					shellCmd(command);
-					System.out.println("curl command: " + command);
-					
-					System.out.println("Uploading file is finished");	
-					
-					extractArchives(Integer.parseInt(count));
-				}
-			
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				pvalues.setSuccess(0);
-				dvalue.deletecomparessedfile();
-				System.exit(1);
-			}
-		}
+		uploadingFile(count);
+	
 	}
 	
 	public static void uploadingFile(String count) {
@@ -128,14 +72,6 @@ public class uploadFiles {
 			httpPost.addHeader("FOSSID-SCAN-CODE", new String(scanCode));
 			httpPost.addHeader("FOSSID-FILE-NAME", new String(fileName));
 			
-			/**
-			InputStream zipFile = new FileInputStream(compressedFile);
-            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-            builder.addBinaryBody("file", zipFile, ContentType.create("application/zip"), filename);
-            HttpEntity httpentity = builder.build();            
-            httpPost.setEntity(httpentity);
-            **/
-			
 			File file = new File(compressedFile);
 			FileEntity fileEn = new FileEntity(file, ContentType.DEFAULT_BINARY);		
 			httpPost.setEntity(fileEn);			
@@ -166,19 +102,6 @@ public class uploadFiles {
 		}
 	}
 	
-	public static void shellCmd(String command) throws Exception {
-        Runtime runtime = Runtime.getRuntime();
-        Process process = runtime.exec(command);
-        InputStream is = process.getInputStream();
-        InputStreamReader isr = new InputStreamReader(is);
-        BufferedReader br = new BufferedReader(isr);
-        String line;
-        
-        while((line = br.readLine()) != null) {
-                       System.out.println(line);
-        }
-	}
-
 	
 	private static void extractArchives(int count) {
 		// to map scan to project

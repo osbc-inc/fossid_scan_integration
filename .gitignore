@@ -1,6 +1,8 @@
 # created by https://www.gitignore.io/api/maven,windows,eclipse
 # Edit at https://www.gitignore.io/?templates=maven,windows,eclipse
 
+build.xml
+
 ### Eclipse ###
 .metadata
 bin/
