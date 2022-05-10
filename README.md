@@ -22,15 +22,6 @@ Prerequisite
 ;Enable API usage of target paths
 webapp_scan_path_enable=1
 ```
-- Add MaxRequestSize and TimeForRequest in /etc/hiawatha/hiawatha.conf if Hiawatha runs as webserver
-```
-Binding {
-        Port = 80
-        # Do not Set over 2GB
-        MaxRequestSize = 2097152
-        TimeForRequest = 300,300
-}
-```  
 - Add timeout and client_max_body_size in /etc/nginx/nginx.conf if Nginx runs as webserver
 
 ```
