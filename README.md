@@ -124,4 +124,10 @@ Scan Option (Optional)
                   (0 default,1)	
 --deltaonly: Only newly added files or modified files will be scanned
              (0,1 default)	
+--full_file_only: Will result in only full file matches being returned regardless of sensitivity setting
+                  (0 default,1)  
+--idassist_ams: If true, scan will run with advanced match scoring. When no value is provided, the default behaviour is enabled
+                (0,1 default)  
+--idassist_mft: Minimum length (in characters) of snippet to be considered valid after applying intelligent match filtering. Set to 0 to disable intelligent match filtering for current scan. If parameter is not sent it defaults to value of ‘webapp_match_filtering_threshold‘ from fossid.conf. If there is no value in fossid.conf the default is 300 characters
+                (0,1 default)  
 ```

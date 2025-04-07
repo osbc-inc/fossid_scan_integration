@@ -110,6 +110,8 @@ public class main {
 			String scanfailedonly = "";
 			String deltaonly = "";
 			String fullfileonly = "";
+			String idassist_ams = "";
+			String idassist_mft = "";
 					
 			
 			String debug = "0";
@@ -225,6 +227,16 @@ public class main {
 					fullfileonly = args[i+1];
 				}			
 				
+				
+				if(args[i].equals("--idassist_ams")) {
+					idassist_ams = args[i+1];
+				}
+				
+				
+				if(args[i].equals("--idassist_mft")) {
+					idassist_mft = args[i+1];
+				}
+				
 				if(args[i].equals("--filepath")) {
 					filePath = args[i+1];
 				}
@@ -276,7 +288,7 @@ public class main {
 			
 			ignoreRules.setignoreRules(ignoreValue, ignoreType);			
 		    runscan.runscan(interval, limit, sensitivity, replaceid, reuseid, idreusetype, specificcode, autoiddetectdeclare, 
-		    		autoiddetectcopyright,  autoidresolvependingids, scanfailedonly, deltaonly, fullfileonly, debug);		    
+		    		autoiddetectcopyright,  autoidresolvependingids, scanfailedonly, deltaonly, fullfileonly, idassist_ams, idassist_mft, debug);		    
 		    if(dependencyScanRun.equals("1")){		    	
 		    	runDependencyScan.runDependencyScan(interval);
 		    }						

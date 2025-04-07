@@ -21,7 +21,8 @@ public class runScan {
 	projectValues pvalues = projectValues.getInstance(); 
 
 	public void runscan(String interval, String limit, String sensitivity, String replaceid, String reuseid, String idreusetype, String specificcode, 
-			String autoiddetectdeclare, String autoiddetectcopyright, String autoidresolvependingids, String  scanfailedonly, String deltaonly, String fullfileonly, String debug) {
+			String autoiddetectdeclare, String autoiddetectcopyright, String autoidresolvependingids, String  scanfailedonly, String deltaonly, String fullfileonly, 
+			String idassist_ams, String idassist_mft, String debug) {
 
 		JSONObject dataObject = new JSONObject();
         dataObject.put("username", lvalues.getUsername());
@@ -127,6 +128,28 @@ public class runScan {
         	} else if(fullfileonly.equals("0")) {        		
         		dataObject.put("full_file_only", fullfileonly);
                 pvalues.setScanOption("full_file_only: " + "false");
+        	}
+        }
+        
+        
+        if(!idassist_ams.equals("")){
+        	if(idassist_ams.equals("1")) {        		
+        		dataObject.put("full_file_only", idassist_ams);
+                pvalues.setScanOption("advanced_match_scoring: " + "true");
+        	} else if(idassist_ams.equals("0")) {        		
+        		dataObject.put("advanced_match_scoring", idassist_ams);
+                pvalues.setScanOption("advanced_match_scoring: " + "false");
+        	}
+        }
+        
+        
+        if(!idassist_mft.equals("")){
+        	if(idassist_mft.equals("1")) {        		
+        		dataObject.put("match_filtering_threshold", idassist_mft);
+                pvalues.setScanOption("match_filtering_threshold: " + "true");
+        	} else if(idassist_mft.equals("0")) {        		
+        		dataObject.put("match_filtering_threshold", idassist_mft);
+                pvalues.setScanOption("match_filtering_threshold: " + "false");
         	}
         }
                         
