@@ -75,7 +75,6 @@ public class uploadFiles {
 			File file = new File(compressedFile);
 			FileEntity fileEn = new FileEntity(file, ContentType.DEFAULT_BINARY);		
 			httpPost.setEntity(fileEn);			
-			
 			System.out.println();
 			System.out.println("The file \"" + compressedFile + "\" is uploading to FOSSID server, /fossid/uploads/files/scans/" + pvalues.getScanId());
 			
